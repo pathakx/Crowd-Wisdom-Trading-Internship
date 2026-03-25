@@ -1,0 +1,899 @@
+{
+  "name": "TA Get & Analyze Chart",
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1260,
+        -1080
+      ],
+      "id": "9fb3667b-f4e3-45f1-964a-1235e9a5fe51",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "name": "GetChart",
+        "description": "Call this tool to get an analysis of a requested stock. The URL that is output from this tool must be returned in markdown format. For example, ![](url)",
+        "workflowId": {
+          "__rl": true,
+          "value": "f18Dd325yiZs2Nr8",
+          "mode": "list",
+          "cachedResultName": "TA Get & Analyze Chart"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2,
+      "position": [
+        1420,
+        -1080
+      ],
+      "id": "64ef23f3-274c-4779-a9c1-d7e91e27dbbd",
+      "name": "Get Chart"
+    },
+    {
+      "parameters": {
+        "updates": "={{ [\"message\"] }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        980,
+        -1300
+      ],
+      "id": "a8abe58c-6e4e-4377-879c-796e09294384",
+      "name": "Telegram Trigger",
+      "webhookId": "dbf7f0b7-5cdd-45a3-8c91-39f0665aba76",
+      "credentials": {
+        "telegramApi": {
+          "id": "I8fuFXIVZRudThLr",
+          "name": "Sau_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_notification": true
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1580,
+        -1300
+      ],
+      "id": "26d0dbfe-cbbd-4b7b-93d2-239c081b1893",
+      "name": "Send Analysis",
+      "webhookId": "03336d65-5b20-4c50-85fc-51a74f1050be",
+      "credentials": {
+        "telegramApi": {
+          "id": "I8fuFXIVZRudThLr",
+          "name": "Sau_Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## AI Agent\n",
+        "height": 520,
+        "width": 1360,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        900,
+        -1460
+      ],
+      "typeVersion": 1,
+      "id": "7e1fd8b2-c134-4a2c-8409-7d922fdcbb87",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=# Overview  \nYou are an AI agent specializing in discussing financial topics and analyzing stocks. Your primary objective is to assist users with professional yet friendly conversations about financial markets, stocks, and investments. You can also perform technical analysis using the **GetChart** tool to generate stock graphs.  \n\n## Context  \n- The agent is designed to analyze and discuss financial markets, providing insights on stocks and related topics.  \n- Use the **GetChart** tool for technical analysis when a stock ticker is provided.  \n- Ensure conversations are both professional and approachable, avoiding overly complex jargon unless specifically requested by the user.  \n- The agent should never give explicit financial advice (e.g., \"buy\" or \"sell\" recommendations).  \n\n## Instructions  \n1. Greet the user in a friendly and professional manner.  \n2. Engage in a conversational tone while discussing financial or stock-related topics.  \n3. If the user provides a stock ticker and requests technical analysis:  \n   - Pass the **stock ticker** as query  to the **GetChart** tool.  \n   - Display the analysis or insights derived from the chart in conversational text.  \n4. When discussing financial topics, provide detailed yet accessible explanations tailored to the user's level of understanding.  \n5. Avoid offering explicit financial advice or making speculative claims.  \n\n## Tools  \n- **GetChart**: Used for generating stock graphs based on provided tickers. The request must include both the **stock ticker** .  \n\n## Examples  \n\n### Example 1: General Stock Discussion  \n**User Input:** \"What do you think about Tesla's performance this year?\"  \n**Agent Output:**  \n\"Tesla has had an interesting year with significant market fluctuations. Its stock performance has been influenced by factors such as EV adoption, competition, and broader market trends. Would you like a technical analysis of its stock performance?\"  \n\n### Example 2: Technical Analysis Request  \n**User Input:** \"Can you analyze AAPL for me?\"  \n**Agent Output:**  \n\"Sure! I’ve analyzed AAPL for you. The chart indicates strong upward momentum over the last quarter, with resistance around $175 and support near $150. Let me know if you'd like more details or a deeper dive into specific patterns!\"  \n\n### Example 3: Financial Concepts Explanation  \n**User Input:** \"Can you explain what P/E ratio means?\"  \n**Agent Output:**  \n\"Of course! The Price-to-Earnings (P/E) ratio is a metric used to evaluate whether a stock is overvalued or undervalued. It’s calculated by dividing the stock’s current price by its earnings per share (EPS). A high P/E might indicate that a stock is overpriced, while a low P/E could suggest it’s undervalued. Let me know if you’d like to explore this further!\"  \n\n## SOP (Standard Operating Procedure)  \n1. **Engage with the user:** Respond professionally and in a friendly tone.  \n2. **Analyze stocks:**  \n   - If a technical analysis is requested, pass the **stock ticker** to **GetChart**.  \n   - Summarize insights from the resulting chart in conversational language.  \n3. **Explain financial concepts:** Break down complex terms into simple, digestible explanations tailored to the user’s expertise.  \n4. **Avoid financial advice:** Provide information and analysis without suggesting actions.  \n5. **Confirm user needs:** Ensure clarity by asking follow-up questions if necessary.  \n\n## Final Notes  \n- Always maintain a balance between professionalism and approachability.  \n- Use the **GetChart** tool effectively, ensuring accurate and clear analysis results.  \n- Avoid making financial predictions or recommendations. Focus on educating and informing the user.  \n---  \n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1160,
+        -1300
+      ],
+      "id": "1dbaa084-97e8-4c88-87a0-7dc8582720cf",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "content": "## I'm a note \n(https://trello.com/c/nkroDVnE/21-create-a-technical-analysis-bot)",
+        "height": 340,
+        "width": 500
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        -1280
+      ],
+      "id": "6406152a-b39d-428c-8808-6d0d00478f0e",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fdf7e016-7082-4146-9038-454139023990",
+              "name": "response",
+              "value": "={{ $json.choices[0].message.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1960,
+        -680
+      ],
+      "id": "fd63bae2-94f6-4642-ae65-46d1d92f5589",
+      "name": "response"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Call this tool to get an analysis of a requested stock. Before making a new request, check the buffer memory to see if the same query has been requested recently. If it exists in the buffer, return the cached response to reduce API calls.\n\nWhen generating the response:\n1. Fetch the latest stock chart **URL** dynamically from the API response.\n2. Replace the `{{ $json.url }}` placeholder with the actual chart URL.\n3. Format the final output in **markdown** so that the chart image is displayed inline.\n\n### **Response Format:**\nThe response should be structured as follows:\n```json\n[\n  {\n    \"response\": \"### Short-Term Prediction & Actionable Insights:\\n**Prediction**: Based on the analysis, the stock is likely to either consolidate or attempt a move higher toward the resistance zone of **$479.38**. However, confirmation of trend continuation will require a close above this level on higher-than-average volume. A rejection at current levels or at resistance could lead to a retest of the **VWAP ($469.58)** or the support zone around **$460**.\\n\\n**Recommendation**: \\n- **Buy Signal**: Traders can consider a buy if the price breaks and closes above **$479.38** with an increase in volume above the daily average. This breakout would signal bullish continuation. \\n- **Sell Signal**: If the price breaks below the **VWAP ($469.58)** or shows weakness near **$472.63**, it would signal a potential bearish pullback.\\n- Currently, **Hold** until confirmation of a breakout above resistance or further consolidation near current levels.\\n\\n---\\n\\n### Detailed Technical Analysis:\\n\\n#### 1. **Candlestick & Price Action Analysis**:\\n- **Current Trend**: The stock appears to be shifting out of a **downtrend** and showing signs of recovery, forming higher lows over the last few sessions.\\n- **Key Levels**:\\n    - The **$472.63** zone is functioning as interim resistance and needs to be decisively broken for a bullish move.\\n    - **Lower highs and lower lows** were dominant during the recent downtrend, but the price recovery near $460 suggests potential support.\\n  \\n- **Candlestick Patterns**:\\n    - There is no strong reversal candlestick pattern present yet; recent price action suggests mild bullish momentum heading into the resistance zone.\\n    - Watch for **bullish engulfing** or **hammer patterns** near key support zones for confirmation of buying pressure.\\n\\n#### 2. **Volume Profile Analysis** (Supply & Demand Zones):\\n- **Point of Control (POC)**: The POC lies in the range of **$470-$472**, indicating an area of strong price agreement and a likely focal point for trading activity. The price is currently hovering near this area, suggesting consolidation.\\n- **High Volume Nodes (HVNs)**: The region between **$470-$472** shows significant trading activity and may act as a platform for either an upward breakout or rejection.\\n- **Low Volume Nodes (LVNs)**: There’s a gap in the volume profile near **$479-$485**, suggesting a breakout above **$479** could see price running quickly to higher levels.\\n- If the price remains below the current HVN zone, it risks testing the lower volume zone near **$460**.\\n\\n#### 3. **Volume Trend Analysis**:\\n- **Current Volume**: Volume shows a moderate increase as the price tries to recover above **VWAP ($469.58)**.\\n- **Key Observations**:\\n    - A significant **volume bar on the recovery around $460** indicates institutional buying interest.\\n    - Low volume during recent upward price movement suggests this could be a **weak bounce** unless accompanied by a volume spike near resistance zones.\\n    - Traders should watch for unusual volume near **$479.38** to confirm breakout strength.\\n\\n#### 4. **Support & Resistance Levels**:\\n- **Support Levels**:\\n    - **$460**: Strong support, marked by price recovery and high recent trading activity.\\n    - **VWAP ($469.58)**: Dynamic support level; price holding above this indicates short-term bullish intent.\\n- **Resistance Levels**:\\n    - **$472.63**: Immediate resistance acting as a ceiling on current recovery.\\n    - **$479.38**: Major resistance zone, coinciding with an LVN in the volume profile. A breakout above this level would signal bullish strength.\\n\\n#### 5. **VWAP Analysis**:\\n- The **current price ($472.63)** is slightly **above VWAP ($469.58)**, indicating short-term bullish sentiment.\\n- If price consolidates around VWAP or deviates significantly to the downside, it would threaten the bullish case, especially with no accompanying volume support.\\n- Traders should monitor deviations below VWAP for possible bearish moves or pullbacks.\\n\\n---\\n\\n### Risks:\\n1. **Failure at Resistance ($479.38)**: Price could get rejected at this key zone and start heading lower toward support levels ($469 or $460) with weak volume confirming bearish sentiment.\\n2. **Low Trading Volume**: A breakout without supporting higher-than-average volume may result in false moves and quick reversals.\\n3. **Testing VWAP ($469.58)**: A breakdown below VWAP risks retesting lower support levels, and failure near **$460** could indicate a return to the prior bearish trend.\\n\\n---\\n\\n**Conclusion**:\\nThe stock appears to be attempting recovery, but traders must wait for confirmation signals, specifically a breakout above **$479.38** with strong volume before entering long positions. Until then, consolidation near the **VWAP ($469.58)** and testing of the nearest support/resistance zones should be expected.\\n\\n---\\n\\n📊 **Technical Chart:**  \\n![]({{ $json.url }})\\n\"\n  }\n]\n",
+        "options": {
+          "systemMessage": ""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1920,
+        80
+      ],
+      "id": "3ceb88e1-991a-4fc9-9f28-19e27cc5ffa3",
+      "name": "AI Agent",
+      "alwaysOutputData": true,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1460,
+        -680
+      ],
+      "id": "4ffa959f-448a-419f-b022-701ca0e70409",
+      "name": "Chart Download"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cf5f7210-5b54-4f4a-abf7-87873be82df4",
+              "name": "ticker",
+              "value": "={{ $json.query }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3080,
+        -620
+      ],
+      "id": "ae600ef9-c922-4416-81fa-517b2851b56c",
+      "name": "Set Ticker1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        340,
+        -660
+      ],
+      "id": "0c91161e-66ab-4228-80a8-2e959cc9c1cf",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "content": "## Backup - Original prompt\n# Overview  \nYou are an AI agent specializing in discussing financial topics and analyzing stocks. Your primary objective is to assist users with professional yet friendly conversations about financial markets, stocks, and investments. You can also perform technical analysis using the **GetChart** tool to generate stock graphs.  \n\n## Context  \n- The agent is designed to analyze and discuss financial markets, providing insights on stocks and related topics.  \n- Use the **GetChart** tool for technical analysis when a stock ticker is provided.  \n- Ensure conversations are both professional and approachable, avoiding overly complex jargon unless specifically requested by the user.  \n- The agent should never give explicit financial advice (e.g., \"buy\" or \"sell\" recommendations).  \n\n## Instructions  \n1. Greet the user in a friendly and professional manner.  \n2. Engage in a conversational tone while discussing financial or stock-related topics.  \n3. If the user provides a stock ticker and requests technical analysis:  \n   - Pass only the stock ticker to the **GetChart** tool.  \n   - Display the analysis or insights derived from the chart in conversational text.  \n4. When discussing financial topics, provide detailed yet accessible explanations tailored to the user's level of understanding.  \n5. Avoid offering explicit financial advice or making speculative claims.  \n\n## Tools  \n- **GetChart**: Used for generating stock graphs based on provided tickers.  \n\n## Examples  \n\n### Example 1: General Stock Discussion  \n**User Input:** \"What do you think about Tesla's performance this year?\"  \n**Agent Output:**  \n\"Tesla has had an interesting year with significant market fluctuations. Its stock performance has been influenced by factors such as EV adoption, competition, and broader market trends. Would you like a technical analysis of its stock performance?\"  \n\n### Example 2: Technical Analysis Request  \n**User Input:** \"Can you analyze AAPL for me?\"  \n**Agent Output:**  \n\"Sure! I’ve analyzed AAPL for you. The chart indicates strong upward momentum over the last quarter, with resistance around $175 and support near $150. Let me know if you'd like more details or a deeper dive into specific patterns!\"  \n\n### Example 3: Financial Concepts Explanation  \n**User Input:** \"Can you explain what P/E ratio means?\"  \n**Agent Output:**  \n\"Of course! The Price-to-Earnings (P/E) ratio is a metric used to evaluate whether a stock is overvalued or undervalued. It’s calculated by dividing the stock’s current price by its earnings per share (EPS). A high P/E might indicate that a stock is overpriced, while a low P/E could suggest it’s undervalued. Let me know if you’d like to explore this further!\"  \n\n## SOP (Standard Operating Procedure)  \n1. **Engage with the user:** Respond professionally and in a friendly tone.  \n2. **Analyze stocks:**  \n   - If a technical analysis is requested, pass the stock ticker to **GetChart**.  \n   - Summarize insights from the resulting chart in conversational language.  \n3. **Explain financial concepts:** Break down complex terms into simple, digestible explanations tailored to the user’s expertise.  \n4. **Avoid financial advice:** Provide information and analysis without suggesting actions.  \n5. **Confirm user needs:** Ensure clarity by asking follow-up questions if necessary.  \n\n## Final Notes  \n- Always maintain a balance between professionalism and approachability.  \n- Use the **GetChart** tool effectively, ensuring accurate and clear analysis results.  \n- Avoid making financial predictions or recommendations. Focus on educating and informing the user.  \n---  \n",
+        "height": 300,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2460,
+        -1440
+      ],
+      "id": "406cd615-a217-4a85-b057-4168ff3b6c8b",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Backup for chart agent node\n\n# Role\n\nYou are an expert financial analyst specializing in technical analysis of stock charts. Your role is to analyze financial charts provided to you and offer comprehensive insights into the technical aspects, including candlestick patterns, MACD indicators, volume trends, and overall market sentiment. You must provide a detailed breakdown of the chart, highlighting key areas of interest and actionable insights.\n\nWhen analyzing a stock chart, always include the following:\n\n1. **Candlestick Analysis**:\n   - Identify and explain any significant candlestick patterns (e.g., bullish engulfing, doji, hammer).\n   - Comment on the overall trend (bullish, bearish, or sideways).\n   - Highlight any breakout or pullback zones.\n\n2. **MACD Analysis**:\n   - Describe the current state of the MACD line and Signal line (e.g., bullish crossover, bearish crossover).\n   - Discuss the MACD histogram and its implications for momentum.\n   - Identify any divergences between the MACD and the price action.\n\n3. **Volume Analysis**:\n   - Highlight any significant changes in trading volume.\n   - Explain how volume supports or contradicts price movements.\n   - Indicate any unusual spikes in volume that may suggest institutional activity.\n\n4. **Support and Resistance Levels**:\n   - Identify key support and resistance zones based on the chart.\n   - Discuss the importance of these levels for potential reversals or breakouts.\n\n5. **Actionable Insights**:\n   - Provide clear guidance on potential buy, sell, or hold strategies.\n   - Suggest what to watch for in the near term, including confirmation signals or potential risks.\n\n6. **Other Observations**:\n   - Note any patterns or indicators that are relevant to the analysis.\n   - Offer insights into market sentiment or other broader trends based on the chart.\n\nBe clear, concise, and data-driven in your analysis. Your goal is to provide actionable information that traders and investors can use to make informed decisions. Always explain your reasoning for any conclusions you draw from the chart.\n",
+        "height": 580,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        -660
+      ],
+      "id": "f7361068-29fe-469d-ba6c-ffbb52f33ddb",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.chart-img.com/v2/tradingview/advanced-chart/storage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "zR7bqpSgkK9G4K2WSoA5raBYFEWQOF6Y3fzeQ7oD"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"theme\": \"dark\",\n  \"interval\": \"1W\",\n  \"symbol\": \"NASDAQ:MSFT\",\n  \"override\": {\n    \"showStudyLastValue\": false\n  },\n  \"studies\": [\n    {\n      \"name\": \"Volume\",\n      \"forceOverlay\": true\n    },\n    {\n      \"name\": \"MACD\",\n      \"override\": {\n        \"Signal.linewidth\": 2,\n        \"Signal.color\": \"rgb(255,65,129)\"\n      }\n    }\n  ]\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2560,
+        -840
+      ],
+      "id": "3a0ff7e6-10f4-4391-a1d5-2081148f82df",
+      "name": "OLD HTTP Request - Chart URL API1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.chart-img.com/v2/tradingview/advanced-chart/storage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "zR7bqpSgkK9G4K2WSoA5raBYFEWQOF6Y3fzeQ7oD"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"theme\": \"dark\",\n  \"interval\": \"1W\",\n  \"symbol\": \"NASDAQ:{{ $('Edit Fields').item.json.ticker }}\",\n  \"override\": {\n    \"showStudyLastValue\": false\n  },\n  \"studies\": [\n    {\n      \"name\": \"Volume\",\n      \"forceOverlay\": true\n    },\n    {\n      \"name\": \"MACD\",\n      \"override\": {\n        \"Signal.linewidth\": 2,\n        \"Signal.color\": \"rgb(255,65,129)\"\n      }\n    }\n  ]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1060,
+        -440
+      ],
+      "id": "02cdf865-7688-4d3a-bd88-6a5b9b323b5a",
+      "name": "Volume profile Chart - API-1"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        380
+      ],
+      "id": "2c845a65-5378-4916-90cd-577f178b1210",
+      "name": "Azure OpenAI Chat Model - gpt-4o",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "xCNBHSpql1TSfuDB",
+          "name": "Azure Open AI account - GPT4o"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        -1080
+      ],
+      "id": "53fe1321-8919-4bea-8a0e-4b93ecb2cb80",
+      "name": "Azure OpenAI Chat Model - gpt-4o-mini",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "l5ghjyyqVOS2c7hp",
+          "name": "Azure Open AI account - GPT4o-mini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const outputText = $input.first().json.output || \"\";\n\n// Extract URL using regex\nconst urlMatch = outputText.match(/!\\[.*?\\]\\((.*?)\\)/);\nconst chartUrl = urlMatch ? urlMatch[1] : \"\";\n\n// Remove Markdown image format from the text\nconst formattedText = outputText.replace(/!\\[.*?\\]\\(.*?\\)/g, \"\").trim();\n\n// Prepare message for Telegram\nconst telegramMessage = `📊 *Technical Analysis for AAPL*  \n\n${formattedText}`;\n\nreturn [\n  {\n    json: {\n      message: telegramMessage,\n      chartUrl: chartUrl\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2460,
+        -1020
+      ],
+      "id": "648e6e18-4ad1-4775-834d-3784f417f43f",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "416427208",
+        "file": "={{ $('Chart Download').item.json.url }}",
+        "additionalFields": {
+          "disable_notification": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1920,
+        -860
+      ],
+      "id": "3d63ea1d-a0c0-49ef-8604-0fc2beed0748",
+      "name": "Telegram",
+      "webhookId": "87518a7e-e364-4c96-ac43-d5b71056dba7",
+      "credentials": {
+        "telegramApi": {
+          "id": "MCi7GQ4sFq8WTGYY",
+          "name": "Telegram account CWT_TA_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const messageData = $('Code').first().json.message || \"\";\n\n// Debugging: Log the original message before processing\nconsole.log(\"Original Message Length:\", messageData.length);\nconsole.log(\"Original Message:\", messageData);\n\n// Remove extra newlines while preserving necessary spacing\nconst cleanedMessage = messageData.replace(/\\n{2,}/g, \"\\n\").trim();\n\n// Function to split the message into chunks of 4085 characters\nfunction splitMessage(text, chunkSize) {\n    let chunks = [];\n    for (let i = 0; i < text.length; i += chunkSize) {\n        chunks.push(text.slice(i, i + chunkSize));\n    }\n    return chunks;\n}\n\n// Split the message into multiple parts\nconst messageChunks = splitMessage(cleanedMessage, 4085);\n\n// Debugging: Log the number of chunks and their lengths\nconsole.log(\"Total Chunks:\", messageChunks.length);\nmessageChunks.forEach((chunk, index) => {\n    console.log(`Chunk ${index + 1} Length:`, chunk.length);\n    console.log(`Chunk ${index + 1} Content:`, chunk);\n});\n\n// Return the chunks as separate JSON objects for looping in n8n\nreturn messageChunks.map(chunk => ({ json: { message: chunk } }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2260,
+        -980
+      ],
+      "id": "b3f1a82a-bdd6-463f-b50d-cb9d661aefe3",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2300,
+        -1200
+      ],
+      "id": "9623badb-8f91-41de-9aff-8bf6b7615219",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ed182bb-97d0-4bc6-b3e1-d31e619c7ca0",
+              "leftValue": "=data",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        -660
+      ],
+      "id": "66dfad48-46a8-4edb-ba71-6b7648576cba",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1b0b7f92-3ffe-4719-b41b-ddf5ab112fe0",
+              "name": "ticker",
+              "value": "={{ $json.query }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        580,
+        -660
+      ],
+      "id": "b039d32b-ee1f-4deb-a8bc-eb566f3042d4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2620,
+        -1040
+      ],
+      "typeVersion": 1,
+      "id": "7e2c4c0b-569d-4274-858b-05d2c018bed4",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "=meta-llama/llama-3.2-11b-vision-instruct:free",
+          "mode": "id"
+        },
+        "text": "=# Role\n\nYou are an expert financial analyst specializing in technical analysis of stock charts. Your role is to analyze financial charts provided to you and offer comprehensive insights into the technical aspects, including candlestick patterns, MACD indicators, volume trends, and overall market sentiment. You must provide a detailed breakdown of the chart, highlighting key areas of interest and actionable insights.\n\nWhen analyzing a stock chart, always include the following:\n1. **Technical Chart:**  \n    - ![]({{ $json.url }})\n\n2. **Candlestick Analysis**:\n   - Identify and explain any significant candlestick patterns (e.g., bullish engulfing, doji, hammer).\n   - Comment on the overall trend (bullish, bearish, or sideways).\n   - Highlight any breakout or pullback zones.\n\n3. **MACD Analysis**:\n   - Describe the current state of the MACD line and Signal line (e.g., bullish crossover, bearish crossover).\n   - Discuss the MACD histogram and its implications for momentum.\n   - Identify any divergences between the MACD and the price action.\n\n4. **Volume Analysis**:\n   - Highlight any significant changes in trading volume.\n   - Explain how volume supports or contradicts price movements.\n   - Indicate any unusual spikes in volume that may suggest institutional activity.\n\n5. **Support and Resistance Levels**:\n   - Identify key support and resistance zones based on the chart.\n   - Discuss the importance of these levels for potential reversals or breakouts.\n\n6. **Actionable Insights**:\n   - Provide clear guidance on potential buy, sell, or hold strategies.\n   - Suggest what to watch for in the near term, including confirmation signals or potential risks.\n\n7. **Other Observations**:\n   - Note any patterns or indicators that are relevant to the analysis.\n   - Offer insights into market sentiment or other broader trends based on the chart.\n",
+        "inputType": "base64",
+        "simplify": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1700,
+        -680
+      ],
+      "id": "d6fec0af-cacf-4704-a810-a1bd27393bc7",
+      "name": "Openrouter - LLAMA3.2.11",
+      "credentials": {
+        "openAiApi": {
+          "id": "49RBKdnCG2WVjb2u",
+          "name": "Openrouter OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.chart-img.com/v2/tradingview/advanced-chart/storage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "xpy1Ih0bg836icNEHWqp39qjmIx1W1tc5Bk8qA8g"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"theme\": \"dark\",\n  \"interval\": \"1h\",\n  \"range\": \"1M\",\n  \"symbol\": \"NASDAQ:{{ $('Edit Fields').item.json.ticker }}\",\n  \"scales\": {\n    \"price\": {\n      \"height\": \"75%\"\n    },\n    \"volume\": {\n      \"height\": \"25%\"\n    }\n  },\n  \"studies\": [\n    {\n      \"name\": \"Volume Profile Visible Range\",\n      \"override\": {\n        \"graphics.horizlines.pocLines.color\": \"rgb(0,0,255)\",\n        \"graphics.position\": \"Right\"\n      }\n    },\n    {\n      \"name\": \"Volume\",\n      \"forceOverlay\": false,\n      \"override\": {\n        \"Volume.plottype\": \"columns\",\n        \"Volume.color.0\": \"rgba(247,82,95,0.5)\",\n        \"Volume.color.1\": \"rgba(34,171,148,0.5)\"\n      }\n    },\n    {\n      \"name\": \"MA with EMA Cross\"\n    }\n  ]\n}\n",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        -660
+      ],
+      "id": "3dcdcd45-74ac-401b-b97a-5d11943f90cc",
+      "name": "Volume profile Chart - API-2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.chart-img.com/v2/tradingview/advanced-chart/storage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "B57daJcmya45g1o4iRSKF2Ro0S7di0sD6Ji8kzck"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"theme\": \"dark\",\n  \"interval\": \"1W\",\n  \"symbol\": \"NASDAQ:{{ $('Edit Fields').item.json.ticker }}\",\n  \"override\": {\n    \"showStudyLastValue\": false\n  },\n  \"studies\": [\n    {\n      \"name\": \"Volume\",\n      \"forceOverlay\": true\n    },\n    {\n      \"name\": \"MACD\",\n      \"override\": {\n        \"Signal.linewidth\": 2,\n        \"Signal.color\": \"rgb(255,65,129)\"\n      }\n    }\n  ]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1060,
+        20
+      ],
+      "id": "b9b90747-f477-4cfa-b183-c336b922ded7",
+      "name": "Volume profile Chart - API-3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ed182bb-97d0-4bc6-b3e1-d31e619c7ca0",
+              "leftValue": "=data",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1060,
+        -220
+      ],
+      "id": "26c28abf-933a-4a59-8247-9a80f9177e82",
+      "name": "If1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Chart": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Chart Download": {
+      "main": [
+        [
+          {
+            "node": "Openrouter - LLAMA3.2.11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Ticker1": {
+      "main": [
+        []
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OLD HTTP Request - Chart URL API1": {
+      "main": [
+        []
+      ]
+    },
+    "Volume profile Chart - API-1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model - gpt-4o": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model - gpt-4o-mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Analysis": {
+      "main": [
+        []
+      ]
+    },
+    "Code": {
+      "main": [
+        []
+      ]
+    },
+    "Telegram": {
+      "main": [
+        []
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Chart Download",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Volume profile Chart - API-1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Volume profile Chart - API-2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Openrouter - LLAMA3.2.11": {
+      "main": [
+        [
+          {
+            "node": "response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Volume profile Chart - API-2": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Volume profile Chart - API-3": {
+      "main": [
+        [
+          {
+            "node": "Chart Download",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Chart Download",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Volume profile Chart - API-3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "986d4831-d165-44f8-b94a-5e20ea43f7ce",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0700e48b03a0654cffdc33e40c6a58faaf369b7e0a2d9e7ab4fed1f410bed752"
+  },
+  "id": "f18Dd325yiZs2Nr8",
+  "tags": [
+    {
+      "createdAt": "2025-03-20T16:02:29.116Z",
+      "updatedAt": "2025-03-20T16:02:29.116Z",
+      "id": "s7kJFq7MdMVQohG9",
+      "name": "not working"
+    },
+    {
+      "createdAt": "2025-03-22T18:32:27.321Z",
+      "updatedAt": "2025-03-22T18:32:27.321Z",
+      "id": "Tqq3I6Ik9nUDoJVX",
+      "name": "WIP"
+    },
+    {
+      "createdAt": "2025-03-29T19:09:40.026Z",
+      "updatedAt": "2025-03-29T19:09:40.026Z",
+      "id": "elzvFyxYrwT7nOjP",
+      "name": "Vikas"
+    }
+  ]
+}

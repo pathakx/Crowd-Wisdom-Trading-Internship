@@ -1,0 +1,2543 @@
+{
+  "name": "SEO KeyWord research and writing",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Key word research",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Main Keyword ",
+              "placeholder": "How to be profitable in crypto trading",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Number of top websites you want to parse",
+              "fieldType": "number",
+              "placeholder": "1-10",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -656,
+        -224
+      ],
+      "id": "906a803d-4763-430d-957a-e524ba7c7e87",
+      "name": "On form submission2",
+      "webhookId": "ac2b9ceb-65f7-4ea2-b909-2555c25a8b40"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        -224
+      ],
+      "id": "8bf697ee-7905-446b-a694-097eadecbbf2",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1888,
+        -240
+      ],
+      "id": "34cc4861-e232-400d-a84b-e45989cd339e",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "url": "=http://api.scraperapi.com/?api_key=<YOUR_API_KEY>&url={{ $json.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1472,
+        -176
+      ],
+      "id": "5ce74677-dc2d-42c2-93af-66f6169a08cf",
+      "name": "Fetch content from the URL",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Role:\n\"You are an experienced SEO Content Writer with expertise in crafting high-quality, search engine-optimized articles. You are skilled at analyzing competitive content and creating superior versions that outshine the existing top results.\"\n\nInstructions:\n\"You'll receive a summary:{{ $json.combinedBodyText  }} that contains the key content extracted from the top-ranking SERP results for the given topic. This factual information represents what is already performing well in search engine results. Your task is to take this content, analyze it, and craft a blog article that is not only engaging and informative but also outperforms these competitors in terms of value, depth, and user experience.\"\n\nSteps:\n\nContent Analysis:\nReview the summary thoroughly, which contains the best information from top-ranking pages. Identify areas where the existing content can be improved in terms of depth, clarity, and value.\nTake note of any gaps or overlooked points in the competitor content that you can address.\n\nStructuring the Article:\nOrganize the content into a well-structured format, with a clear introduction, engaging body, and strong conclusion.\nEnsure each section is optimized for readability, with logical flow and appropriate use of headers (H1, H2, H3) for easy navigation.\nBreak down complex information into digestible chunks, using short paragraphs, bullet points, and numbered lists where appropriate.\n\nEnhancing Readability:\nWrite in a conversational, easy-to-understand tone while maintaining professionalism and authority.\nUse transition words and varied sentence lengths to keep the reader engaged.\navoid jargon or overly complex terms and unless they add value, and provide definations or explanations for technical terms. \n\nSEO Optimization:\nintegrate relevant primary and secondary keywords naturally throughout the article to improve rankings.\nEnsure keyword usage is contextually relevant and does not disrupt the natural flow of the content.\nOptimize for on-page SEO by incorporating internal links, external authoritative references, and a compelling meta description.\n\nAdding Unique Value:\nProvide actionable insights, real-world examples, or tips that add unique value to the reader, going beyond what is offered in the current top-ranking content.\nInclude data, case studies, or expert quotes to support your points and further differentiate your article from competitors.\nWhere applicable, add multimedia (images, graphs, charts) to enhance comprehension and engagement.\n\nFinal Review:\nDouble-check the article for grammar, spelling, and consistency.\nMake sure all content is fact-checked and up-to-date with the most relevant, accurate information.\nReview the tone and readability to ensure it appeals to the target audience, balancing SEO needs with user engagement.\n\nEnd Goal:\n\"Your ultimate goal is to create a superior, SEO-optimized blog article that not only outranks the current top competitors but also provides more value, engages the reader, and is easily digestible. The content should be authoritative, well-researched, and designed to convert visitors into loyal readers or customers.\"\n\nNarrowing:\n\"Focus strictly on factual information from the top-ranking pages, improving and expanding upon it. Avoid including off-topic or unrelated content. Stay aligned with the search intent of the target audience, which is to find actionable, in-depth, and reliable information on the topic. Do not overstuff keywords; ensure the writing flows naturally and is reader-focused.\"\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        3440,
+        -176
+      ],
+      "id": "32c29f84-6a92-496c-b315-669ca5c3a73a",
+      "name": "SEO Content Writer Agent"
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.filename }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1R3TZq654HaZw_HTYsZtkfJa35NmGBk77",
+          "mode": "list",
+          "cachedResultName": "CWT website SEO",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1R3TZq654HaZw_HTYsZtkfJa35NmGBk77"
+        },
+        "options": {
+          "propertiesUi": {
+            "propertyValues": [
+              {
+                "key": "mimeType",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4832,
+        -176
+      ],
+      "id": "33b9187e-0c40-4b3c-9703-586f0287446d",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Ie4B7rdKufE5pkR5",
+          "name": "Google Drive account - vikaspathak0911@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "SEO Content Writer Agent",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        3440,
+        -16
+      ],
+      "id": "b09dc91d-4966-4f30-93d1-276ea89f6284",
+      "name": "Azure OpenAI Chat Model1",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "xCNBHSpql1TSfuDB",
+          "name": "Azure Open AI account - GPT4o"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Role:\n\"You are a skilled human-like writing assistant, tasked with transforming blog content into highly engaging, empathetic, and conversational writing without altering its factual or structural integrity.\"\n\nInstructions:\n\"You'll receive content from the Blog Writer agent node: {{ $json.output }}. Your goal is to refine the tone, style, and flow of this content to make it feel more human, approachable, and relatable while adhering to these guidelines:\n\nCore Guidelines\n\nPreserve Factual Accuracy and Structure:\nMaintain the original facts, structure, and organization of the content. Focus solely on tone and language adjustments.\n\nHumanized Word Choice:\nAvoid predictable or robotic phrases and rewrite any overly formal or repetitive sentences.\nReplace corporate language with natural, engaging prose. Use conversational transitions, opting for smoother, more natural connecting phrases (e.g., \"Think about it,\" \"Here's the thing\") instead of stiff, formal ones (e.g., \"Furthermore,\" \"Moreover,\" \"In addition\").\nSpeak directly to the reader using \"you\" and \"we.\"\nAcknowledge reader feelings, challenges, and aspirations.\nUse plain language; explain technical terms clearly if necessary.\nVary paragraph lengths.\nVary sentence length and structure: Mix short, punchy sentences with longer, more descriptive ones to keep the rhythm engaging and prevent monotony.\nIncorporate rhetorical questions: Pose questions that encourage the reader to think or reflect, fostering a conversational feel rather than simply presenting information.\nShow, don't just tell: Instead of stating a fact, describe it in a way that allows the reader to visualize or feel it, adding vividness to the writing and creating a more immersive experience.\nMaintain a consistent, approachable tone throughout the article, avoiding sudden shifts that could disorient the reader.\n\nValue-Driven Content:\nEliminate fluff. Every sentence should contribute meaningful information, insight, or emotional connection.\n\nStylistic Improvements:\nUse active voice wherever possible. Avoid clichés, repetitive phrases, and awkward transitions.\nAdd relatable examples or brief anecdotes where appropriate, enhancing the reader's emotional connection to the content.\nWhere suitable, use simple analogies or metaphors to clarify complex ideas, making them more approachable and memorable.\n\nProhibited Language:\nLimit Words: Avoid using the words \"unique,\" \"ensure,\" and \"utmost\" more than three times.\nForbidden Words: Avoid these entirely:\n\"meticulous,\" \"complexities,\" \"bespoke,\" \"tailored,\" \"underpins,\" \"amongst,\" \"unlock the secrets,\" \"unveil the secrets,\" \"robust,\" and similar overused or corporate terms.\nAvoid passive voice constructions. Always aim for clarity and engagement.\nSteer clear of redundancies (e.g., 'past history,' 'free gift') and unnecessary wordiness that can dilute clarity and engagement.\n\nExamples of Transformation\n\nBefore: \"This tool can improve your workflow.\"\nAfter: \"Picture yourself gliding through your tasks with ease, thanks to a tool that takes the heavy lifting off your plate.\"\nBefore: \"It is advisable to review all options before making a decision.\"\nAfter: \"Take a moment to consider your choices—what works best for you?\"\n\nEnd Goal:\n\"Produce content that feels natural, engaging, and human while staying aligned with the original structure and facts. Aim to captivate readers, keep their attention, and foster a genuine connection. Always prioritize readability, relatability, and emotional resonance. The content should not just inform, but also resonate emotionally, guiding the reader through a satisfying and insightful journey from introduction to conclusion.\"\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        3840,
+        -176
+      ],
+      "id": "4c6fd41b-63d6-4df2-bac1-f3e43ca28ce9",
+      "name": "Humanize Text"
+    },
+    {
+      "parameters": {
+        "model": "Humanize Text",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        3888,
+        -16
+      ],
+      "id": "58099e0c-005b-4fbc-997d-f0144980af57",
+      "name": "Azure OpenAI Chat Model2",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "xCNBHSpql1TSfuDB",
+          "name": "Azure Open AI account - GPT4o"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "\n### 🔁 How This Workflow Works:\n\n#### 📝 It All Starts with a Simple Form  \nSomeone types in a topic they care about—say, “how to profit from crypto trading”—and picks how many websites they want to scan. That’s it. This little form kickstarts the whole operation.\n\n#### 🌐 Hunting Down the Top Sources  \nThe system goes out and finds the most relevant, high-ranking web pages about the chosen topic. It’s like sending a research assistant to Google and saying, “Find me the best stuff on this, and make it quick.”\n\n#### 📄 Digging Into Those Pages  \nOne by one, each page gets pulled in and carefully scraped using ScraperAPI—no fluff, just the raw content under the hood.\n\n#### 🧹 Stripping Out the Mess  \nThat web page gunk (scripts, banners, etc.)? Tossed. The system extracts just the good stuff—actual writing from paragraphs and spans—so we’re left with clean, readable text.\n\n#### 🧠 Turning Chaos Into Clarity  \nNow comes the magic: all that raw text gets bundled together and passed to an AI agent that summarizes it. Think of it as the “notes version” of a research binge: what it’s about, what matters most, and what’s often missing in current coverage.\n\n#### ✍️ Writing a Blog That’s Built to Rank  \nUsing that summarized goldmine, the SEO writer agent jumps in. It crafts a blog that doesn’t just inform, but actually stands a fighting chance in search rankings—smart formatting, natural keyword usage, even internal and external linking.\n\n#### 🧑‍🎨 Making It Sound Human  \nHere’s where things get real: another AI takes the drafted blog and rewrites it so it doesn’t sound like it was written by, well... an AI. The tone gets warmer, the phrasing more natural, and suddenly it reads like it came from a seasoned content creator.\n\n#### 📄 Wrapping It Up in HTML  \nOnce the text is humanized, it’s wrapped in clean, well-structured HTML. Every heading, list, and paragraph is placed exactly where it should be, ready to go live on a site.\n\n#### 📤 Auto-Saving the Final Result  \nThe finished blog gets uploaded directly to a Google Drive folder—no manual dragging and dropping required. It’s filed, stored, and ready to publish.\n\n#### 📊 Keeping Track of the Data  \nMeanwhile, every keyword and sub-topic used in the process is logged into a Google Sheet. You get a full trail of what was researched, what was written, and where the SEO juice is flowing",
+        "height": 1080,
+        "width": 820,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1680,
+        -400
+      ],
+      "id": "cb4be1e6-8b63-4da8-adf0-117f31991606",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## what to search in a form submission",
+        "height": 420,
+        "width": 260
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -736,
+        -304
+      ],
+      "id": "b5d816e7-2002-48ae-a26c-bb09a689e065",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## extracting links from json",
+        "height": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        784,
+        -304
+      ],
+      "id": "a7d4653b-249a-4582-a717-6bb1ef846382",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## loop the code node to clean the data  ",
+        "height": 420,
+        "width": 460
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1792,
+        -304
+      ],
+      "id": "8b26bf8e-e205-47d1-adce-7c49e4864ccb",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## To concatenate the content  Code node 3\n\n",
+        "height": 420,
+        "width": 280
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        -288
+      ],
+      "id": "5cfd5b01-5208-465c-9dc8-1fddcd0b32f0",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## save output to gdrive\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nhttps://drive.google.com/drive/u/0/folders/1R3TZq654HaZw_HTYsZtkfJa35NmGBk77",
+        "height": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4768,
+        -288
+      ],
+      "id": "95a23094-541c-4ee4-968a-b3dedef9e97b",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "## Humenzing the output",
+        "height": 420,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3824,
+        -288
+      ],
+      "id": "3b3362c2-7763-4af4-8246-30ad9b8d84ce",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "## summerizing data",
+        "height": 420,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3408,
+        -288
+      ],
+      "id": "2d47f103-f3b2-488d-bb7e-958965b4c12e",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "## To extract the content of the website\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n54f15cfa8980125693757814e5d7ece4\n\nuser vikaspathak0911@gmail.com",
+        "height": 420,
+        "width": 520
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        -304
+      ],
+      "id": "3ead5a4d-4e61-4c45-b045-b5966c38da87",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "model": "Humanize Text",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        4208,
+        -16
+      ],
+      "id": "4156aee6-fbcc-46c9-9b86-016ac9dcf29b",
+      "name": "Azure OpenAI Chat Model3",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "l5ghjyyqVOS2c7hp",
+          "name": "Azure Open AI account - GPT4o-mini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## HTML format output for website ",
+        "height": 420,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4192,
+        -288
+      ],
+      "id": "f74bcad1-7068-4850-8302-a9a72115bfa6",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\"I will provide you with a set of keywords. Your task is to generate a list of the top SEO keywords that are currently trending and highly relevant to the provided input. These keywords should be suitable for optimizing a blog post for maximum search visibility.\n\nTo accomplish this, you should:\n\n\n\nIdentify Trending Sub-topics: Based on the \"{{ $json['Main Keyword '] }}\", perform a real-time search to identify currently trending sub-topics, questions, or specific angles within that broader subject.\n\nGenerate SEO Keywords: For each identified trending sub-topic, generate 5-7 highly relevant SEO keywords. Prioritize keywords that appear to have a good balance of search volume and manageable competition (as indicated by search trends and related queries). Include a mix of short-tail, mid-tail, and long-tail keywords where appropriate.\n\nProvide Rationale: For each cluster of keywords related to a sub-topic, briefly explain why these keywords are trending or relevant and why they would be effective for SEO.\n\nPlease present your findings in the following format:\n\nInput Keywords: [Your Provided Keywords]\n\nTrending Sub-topic 1: [Brief, Descriptive Title of Trending Sub-topic]\n\n\n\nWhy it's trending: [Concise explanation]\n\nTop SEO Keywords:[Keyword 1]\n\n[Keyword 2]\n\n[Keyword 3]\n\n[Keyword 4]\n\n[Keyword 5]\n\n[Keyword 6] (Optional)\n\n[Keyword 7] (Optional)\n\nTrending Sub-topic 2: [Brief, Descriptive Title of Trending Sub-topic]\n\n\n\nWhy it's trending: [Concise explanation]\n\nTop SEO Keywords:[Keyword 1]\n\n[Keyword 2]\n\n[Keyword 3]\n\n[Keyword 4]\n\n[Keyword 5]\n\n[Keyword 6] (Optional)\n\n[Keyword 7] (Optional)\n\n... (Continue for at least 3-5 trending sub-topics, or as many as are relevant and discoverable through real-time search) {{ $json[\"Main Keyword \"] }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -448,
+        -224
+      ],
+      "id": "3ad5dbc0-5c48-43dd-8d8b-38493563e6e0",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\"As a leading AI in Finance market research analyst and SEO strategist, identify the single most trending and high-potential sub-topic for a blog post or website content from the following list. Your selection should maximize organic search visibility, attract a broad audience of retail and institutional investors, and be highly relevant to current industry discussions (2024-2025 trends).\n\nConsider factors like:\n\nSearch Volume & Growth: Which topic is experiencing the most significant increase in search interest?\nCompetitive Landscape: Which topic offers opportunities for unique content that stands out?\nUser Pain Points & Interest: Which topic addresses a pressing need or generates the most active discussion among financial professionals and tech enthusiasts?\nLongevity & Evergreen Potential: While trending, which topic has sustained interest beyond a short-term spike?\nSub-topics to analyze:\n {{ $json.output.sub_topics[0].title }}\n {{ $json.output.sub_topics[1].title }}\n {{ $json.output.sub_topics[2].title }}\n {{ $json.output.sub_topics[3].title }}\n {{ $json.output.sub_topics[4].title }}\n\nProvide your answer as:\n\nThe most trending sub-topic (Exact Phrase):\nBrief SEO Justification: (Explain why this sub-topic is most trending and its SEO potential, including potential keywords and audience appeal. Max 100 words.)\"\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        48,
+        -224
+      ],
+      "id": "c4105ad6-aacb-44e3-855a-169adc0bf0ed",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": "sdfsdfsdfsdfsd",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -48
+      ],
+      "id": "176cff5e-7de8-432e-87ec-3b76a8bc65ff",
+      "name": "Azure OpenAI Chat Model4",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "xCNBHSpql1TSfuDB",
+          "name": "Azure Open AI account - GPT4o"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"sub_topics\": [\n    {\n      \"title\": \"Applications of AI in Algorithmic Trading\",\n      \"keywords\": [\n        \"AI algorithmic trading\",\n        \"machine learning in stock trading\",\n        \"predictive analytics in trading\",\n        \"AI trading bots\",\n        \"automated trading systems\",\n        \"deep learning for financial markets\",\n        \"artificial intelligence in high-frequency trading\"\n      ]\n    },\n    {\n      \"title\": \"AI for Retail Traders\",\n      \"keywords\": [\n        \"AI trading tools for retail investors\",\n        \"best AI software for trading\",\n        \"AI stock market analysis for individuals\",\n        \"machine learning trading platforms\",\n        \"AI trading apps for beginners\",\n        \"personalization in AI for trading\",\n        \"AI-powered financial advice for retail traders\"\n      ]\n    },\n    {\n      \"title\": \"Ethical Concerns and Risks of AI Trading\",\n      \"keywords\": [\n        \"ethical concerns of AI in trading\",\n        \"risks of AI-powered trading algorithms\",\n        \"regulatory challenges for AI trading systems\",\n        \"bias in AI trading models\",\n        \"market manipulation using AI\",\n        \"compliance for AI trading platforms\",\n        \"responsible use of AI in financial markets\"\n      ]\n    },\n    {\n      \"title\": \"AI’s Role in Cryptocurrency Trading\",\n      \"keywords\": [\n        \"AI in cryptocurrency trading\",\n        \"machine learning for crypto price prediction\",\n        \"automated bitcoin trading using AI\",\n        \"AI-driven crypto trading bots\",\n        \"predictive modeling in crypto markets\",\n        \"artificial intelligence in blockchain trading\",\n        \"smart trading strategies for crypto investors\"\n      ]\n    },\n    {\n      \"title\": \"Future Trends in AI for Trading\",\n      \"keywords\": [\n        \"future of AI in trading\",\n        \"emerging AI trends for financial markets\",\n        \"AI and quantum computing in finance\",\n        \"next-gen trading algorithms using AI\",\n        \"AI forecasting for stock market trends\",\n        \"innovations in AI for hedge funds\",\n        \"advancements in AI-powered trading platforms\"\n      ]\n    }\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -288,
+        -48
+      ],
+      "id": "78cc4e26-f5db-49ca-87fb-f49fae614f95",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": "BestSubTopic",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        48,
+        -48
+      ],
+      "id": "3b19319c-e4d5-4ba0-bc72-1726c238bf26",
+      "name": "Azure OpenAI Chat Model5",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "xCNBHSpql1TSfuDB",
+          "name": "Azure Open AI account - GPT4o"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 420,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        -304
+      ],
+      "id": "035d0cab-0aa7-4367-9674-5c52820436d8",
+      "name": "Sticky Note14",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 420,
+        "width": 360
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -304
+      ],
+      "id": "0dc67954-e573-42a9-adfb-2d957c88742c",
+      "name": "Sticky Note18"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"The most trending sub-topic\": \"AI-Powered Predictive Analytics in Trading\",\n\t\"Brief SEO Justification\": \"This sub-topic is gaining significant traction due to its transformative potential in optimizing trading strategies in volatile markets. With increasing search interest driven by advancements in AI and machine learning, it appeals to both retail and institutional investors seeking to leverage predictive models for enhanced decision-making. The competitive landscape is moderately saturated, offering room for authoritative, innovative content using keywords like AI stock prediction, machine learning trading insights, and predictive analytics in forex. Its evergreen nature ensures sustained interest as predictive analytics remains a cornerstone of AI applications in finance, addressing the pressing pain points of accuracy and profitability.\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        -48
+      ],
+      "id": "190273ec-d2cd-4b6f-850f-bf2815e83991",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Use the {{ $json.output }} as the input of blog. convert it HTML format. ensure the format defined below\n\nFormat the content using clean, semantic HTML:\n\n- Do not include \"```\" and \"<html>\" in the begining.\n- The main title should be an `<h1>`.\n- Section titles (e.g., 'What is Mindful Meditation?') should be `<h2>`.\n- Sub-section titles (e.g., 'Getting Started') should be `<h3>`.\n- All paragraphs should be enclosed in `<p>` tags.\n- Lists of items should use `<ul>` and `<li>` tags.\n- Important terms or phrases that need emphasis should use `<strong>` tags for bolding.\n- Visually separate major sections with `<hr>` tags.\n- Do not include `<html>`, `<head>`, `<body>`, `<style>`, or `<script>` tags. Only output the content that would go inside the `<body>` element.\n- Ensure all HTML tags are correctly opened and closed.\"\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4208,
+        -176
+      ],
+      "id": "78a3770d-51ab-4bcc-80cd-043ac3ead48a",
+      "name": "HTML format"
+    },
+    {
+      "parameters": {
+        "content": "## Save Keywords\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nhttps://docs.google.com/spreadsheets/d/1UzuRItsG7iWs0p55lWfdB-jQM76oEkhtg8iOWpNQJ64/edit?gid=1175941509#gid=1175941509",
+        "height": 360,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        384,
+        208
+      ],
+      "id": "7c6ea992-92b6-498a-bb5a-4877001251c3",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "content": "## Save SubTopic\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nhttps://docs.google.com/spreadsheets/d/1UzuRItsG7iWs0p55lWfdB-jQM76oEkhtg8iOWpNQJ64/edit?gid=0#gid=0",
+        "height": 360,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        32,
+        208
+      ],
+      "id": "4f31faae-19eb-494b-b7ea-0a98a09bc8a2",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1UzuRItsG7iWs0p55lWfdB-jQM76oEkhtg8iOWpNQJ64",
+          "mode": "list",
+          "cachedResultName": "CWT SEO with n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UzuRItsG7iWs0p55lWfdB-jQM76oEkhtg8iOWpNQJ64/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1175941509,
+          "mode": "list",
+          "cachedResultName": "Keywords",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UzuRItsG7iWs0p55lWfdB-jQM76oEkhtg8iOWpNQJ64/edit#gid=1175941509"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "keyword-35": "={{ $('AI Agent').item.json.output.sub_topics[4].keywords[6] }}",
+            "keyword-34": "={{ $('AI Agent').item.json.output.sub_topics[4].keywords[5] }}",
+            "keyword-33": "={{ $('AI Agent').item.json.output.sub_topics[4].keywords[4] }}",
+            "keyword-32": "={{ $('AI Agent').item.json.output.sub_topics[4].keywords[3] }}",
+            "keyword-31": "={{ $('AI Agent').item.json.output.sub_topics[4].keywords[2] }}",
+            "keyword-30": "={{ $('AI Agent').item.json.output.sub_topics[4].keywords[1] }}",
+            "keyword-29": "={{ $('AI Agent').item.json.output.sub_topics[4].keywords[0] }}",
+            "keyword-28": "={{ $('AI Agent').item.json.output.sub_topics[3].keywords[6] }}",
+            "keyword-27": "={{ $('AI Agent').item.json.output.sub_topics[3].keywords[5] }}",
+            "keyword-26": "={{ $('AI Agent').item.json.output.sub_topics[3].keywords[4] }}",
+            "keyword-25": "={{ $('AI Agent').item.json.output.sub_topics[3].keywords[3] }}",
+            "keyword-24": "={{ $('AI Agent').item.json.output.sub_topics[3].keywords[2] }}",
+            "keyword-23": "={{ $('AI Agent').item.json.output.sub_topics[3].keywords[1] }}",
+            "keyword-22": "={{ $('AI Agent').item.json.output.sub_topics[3].keywords[0] }}",
+            "keyword-21": "={{ $('AI Agent').item.json.output.sub_topics[2].keywords[6] }}",
+            "keyword-20": "={{ $('AI Agent').item.json.output.sub_topics[2].keywords[5] }}",
+            "keyword-19": "={{ $('AI Agent').item.json.output.sub_topics[2].keywords[4] }}",
+            "keyword-18": "={{ $('AI Agent').item.json.output.sub_topics[2].keywords[3] }}",
+            "keyword-17": "={{ $('AI Agent').item.json.output.sub_topics[2].keywords[2] }}",
+            "keyword-16": "={{ $('AI Agent').item.json.output.sub_topics[2].keywords[1] }}",
+            "keyword-15": "={{ $('AI Agent').item.json.output.sub_topics[2].keywords[0] }}",
+            "keyword-14": "={{ $('AI Agent').item.json.output.sub_topics[1].keywords[6] }}",
+            "keyword-13": "={{ $('AI Agent').item.json.output.sub_topics[1].keywords[5] }}",
+            "keyword-12": "={{ $('AI Agent').item.json.output.sub_topics[1].keywords[4] }}",
+            "keyword-11": "={{ $('AI Agent').item.json.output.sub_topics[1].keywords[3] }}",
+            "keyword-10": "={{ $('AI Agent').item.json.output.sub_topics[1].keywords[2] }}",
+            "keyword-09": "={{ $('AI Agent').item.json.output.sub_topics[1].keywords[1] }}",
+            "keyword-08": "={{ $('AI Agent').item.json.output.sub_topics[1].keywords[0] }}",
+            "keyword-07": "={{ $('AI Agent').item.json.output.sub_topics[0].keywords[6] }}",
+            "keyword-06": "={{ $('AI Agent').item.json.output.sub_topics[0].keywords[5] }}",
+            "keyword-05": "={{ $('AI Agent').item.json.output.sub_topics[0].keywords[4] }}",
+            "keyword-04": "={{ $('AI Agent').item.json.output.sub_topics[0].keywords[3] }}",
+            "keyword-03": "={{ $('AI Agent').item.json.output.sub_topics[0].keywords[2] }}",
+            "keyword-02": "={{ $('AI Agent').item.json.output.sub_topics[0].keywords[1] }}",
+            "keyword-01": "={{ $('AI Agent').item.json.output.sub_topics[0].keywords[0] }}",
+            "Main Keyword": "={{ $('On form submission2').item.json[\"Main Keyword \"] }}"
+          },
+          "matchingColumns": [
+            "Main Keyword"
+          ],
+          "schema": [
+            {
+              "id": "Main Keyword",
+              "displayName": "Main Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-01",
+              "displayName": "keyword-01",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-02",
+              "displayName": "keyword-02",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-03",
+              "displayName": "keyword-03",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-04",
+              "displayName": "keyword-04",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-05",
+              "displayName": "keyword-05",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-06",
+              "displayName": "keyword-06",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-07",
+              "displayName": "keyword-07",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-08",
+              "displayName": "keyword-08",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-09",
+              "displayName": "keyword-09",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-10",
+              "displayName": "keyword-10",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-11",
+              "displayName": "keyword-11",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-12",
+              "displayName": "keyword-12",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-13",
+              "displayName": "keyword-13",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-14",
+              "displayName": "keyword-14",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-15",
+              "displayName": "keyword-15",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-16",
+              "displayName": "keyword-16",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-17",
+              "displayName": "keyword-17",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-18",
+              "displayName": "keyword-18",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-19",
+              "displayName": "keyword-19",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-20",
+              "displayName": "keyword-20",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-21",
+              "displayName": "keyword-21",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-22",
+              "displayName": "keyword-22",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-23",
+              "displayName": "keyword-23",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-24",
+              "displayName": "keyword-24",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-25",
+              "displayName": "keyword-25",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-26",
+              "displayName": "keyword-26",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-27",
+              "displayName": "keyword-27",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-28",
+              "displayName": "keyword-28",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-29",
+              "displayName": "keyword-29",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-30",
+              "displayName": "keyword-30",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-31",
+              "displayName": "keyword-31",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-32",
+              "displayName": "keyword-32",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-33",
+              "displayName": "keyword-33",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-34",
+              "displayName": "keyword-34",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword-35",
+              "displayName": "keyword-35",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        464,
+        288
+      ],
+      "id": "d73e9177-b573-4e77-9223-7a61223a4ad4",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "akCyjWQmT5lTK2cr",
+          "name": "Google (vikaspathak0911) Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1UzuRItsG7iWs0p55lWfdB-jQM76oEkhtg8iOWpNQJ64",
+          "mode": "list",
+          "cachedResultName": "SEO with n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UzuRItsG7iWs0p55lWfdB-jQM76oEkhtg8iOWpNQJ64/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "SubTopics",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UzuRItsG7iWs0p55lWfdB-jQM76oEkhtg8iOWpNQJ64/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keyword": "={{ $('On form submission2').item.json[\"Main Keyword \"] }}",
+            "Sub-Topics-02": "={{ $json.output.sub_topics[1].title }}",
+            "Sub-Topics-01": "={{ $json.output.sub_topics[0].title }}",
+            "Sub-Topics-03": "={{ $json.output.sub_topics[2].title }}",
+            "Sub-Topics05": "={{ $json.output.sub_topics[4].title }}",
+            "Sub-Topics-04": "={{ $json.output.sub_topics[3].title }}"
+          },
+          "matchingColumns": [
+            "Keywords"
+          ],
+          "schema": [
+            {
+              "id": "Keyword",
+              "displayName": "Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sub-Topics-01",
+              "displayName": "Sub-Topics-01",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sub-Topics-02",
+              "displayName": "Sub-Topics-02",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sub-Topics-03",
+              "displayName": "Sub-Topics-03",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sub-Topics-04",
+              "displayName": "Sub-Topics-04",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sub-Topics05",
+              "displayName": "Sub-Topics05",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        48,
+        288
+      ],
+      "id": "e6d10de9-7656-4a47-ad2a-55bf321cc063",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "akCyjWQmT5lTK2cr",
+          "name": "Google (vikaspthak0911) Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Scraper API\nimport requests\n\npayload = { 'api_key': '54f15cfa8980125693757814e5d7ece4', 'url': 'https://httpbin.org/' }\nr = requests.get('https://api.scraperapi.com/', params=payload)\nprint(r.text)",
+        "height": 220,
+        "width": 620,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        -640
+      ],
+      "id": "f635d834-4143-4e12-9d94-5d77be13ebf3",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Pass the keyword to write the blog on the most trending sub topic decided by AI",
+        "height": 1080,
+        "width": 6000,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        -400
+      ],
+      "id": "2905d1a8-5104-4789-a0d0-173762d4d5da",
+      "name": "Sticky Note30"
+    },
+    {
+      "parameters": {
+        "content": "## Working of code node 4\n\nInput: just a chunk of HTML content that's sitting there in $json.output – that's our starting point.\n\nSafety first: It quickly checks if that HTML chunk actually exists. If it's empty, it'll just throw an error because, well, there's nothing to work with!\n\nTitle: It then tries to be clever and pull out whatever's inside the very first <h1> tag. That'll be our page title. If, for some reason, there isn't an <h1> tag, no worries, it just calls the page 'Untitled'.\n\nFile Name: Since that title will also be used as the filename, it does a quick cleanup, getting rid of any weird characters that might mess things up on your computer.\n\nBuilding Web Page: This is where it really gets to work! It takes that little HTML chunk we started with and wraps it up neatly inside a full, proper HTML5 webpage structure. Think of it like putting a small note into a complete document with a header and body.\n\nStyling: To make sure the page isn't just plain text, it throws in some basic styling (CSS) right into the <head> section. This just makes everything look clean and easy to read.\n\nBinary File: Once the full HTML page is assembled, it converts all that text into a binary format. This is just how computers prefer to handle files when they're being saved or sent around.\n\n",
+        "height": 480,
+        "width": 680,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4320,
+        -880
+      ],
+      "id": "43418d97-52f9-4be1-9a5a-c0e312f9574b",
+      "name": "Sticky Note32"
+    },
+    {
+      "parameters": {
+        "content": "## summarizing content of all website using loop and AI agent",
+        "height": 500,
+        "width": 720,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2288,
+        -288
+      ],
+      "id": "4fa60c8b-6cb4-4676-ae2f-b3fcfc7758ff",
+      "name": "Sticky Note34"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\n**Role**: A precise data extractor and summarizer.\n\n**Instruction**: Analyze the body text provided from three scraped web pages and produce a structured, detailed summary of key information contained within. Focus on identifying unique, relevant, and actionable insights that align with the goal of informing a high-quality blog post.\n\n**Steps**:\n\n1. **Input Analysis**: Examine the combined body text input from the three web pages provided: `{{ $json.bodyText }}`.\n2. **Topic Identification**: Determine the overarching themes or topics discussed in the combined text.\n3. **Content Extraction**: Extract key details such as:\n    - Major points or arguments.\n    - Supporting facts, statistics, or evidence.\n    - Unique insights or perspectives.\n4. **Organized Summary**: Structure the information in a format that is eary to use for a blog writer. Use sections like:\n    - Introduction/Overview.\n    - Key Insights/Findings (list format).\n    - Supporting Evidence/Examples.\n    - Implications or Potential Applications.\n5. **Clarity and Relevance**: Ensure the summary is concise, devoid of unnecessary repetition, and directly relevant to producing a blog post.\n\n**End Goal**: To generate a coherent and detailed summary that contains all the critical information from the input text. This summary will serve as the foundational content for the subsequent blog-writing step.\n\n**Narrowing**: Emphasize extracting content that provides depth and value for readers, such as unique data points, expert opinions, or practical applications. Avoid duplicating generic information and instead highlight specifics unique to the combined web pages.\n\nExample Output Structure:\n\n```\n**Overview**\n[Summerize the text extracted from the website.]\n\n**Key Insights/Findings**\n- [Insight 1]\n- [Insight 2]\n- [Insight 3]\n\n**Supporting Evidence/Examples**\n1. [Fact or example from Page 1]\n2. [Fact or example from Page 2]\n3. [Fact or example from Page 3]\n\n**Implications or Applications**\n[Analysis of how the information could be applied or its broader implications.]\n```",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        2608,
+        -80
+      ],
+      "id": "ce4a588f-787d-4b5c-9dca-044f5a64de46",
+      "name": "Data Extractor and Summarizer Agent2"
+    },
+    {
+      "parameters": {
+        "model": "Data Extraction",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        64
+      ],
+      "id": "dac6155e-5bf3-4f61-8be0-34a80a3da1d4",
+      "name": "Azure OpenAI Chat Model10",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "xCNBHSpql1TSfuDB",
+          "name": "Azure Open AI account - GPT4o"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## summarizing content of website ",
+        "height": 420,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        -224
+      ],
+      "id": "15e71e5a-c604-485b-985c-4ccbbe98340a",
+      "name": "Sticky Note35"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2384,
+        -160
+      ],
+      "id": "02a46ee7-f25c-4ef1-9ff8-c6af68a9587e",
+      "name": "Loop Over Items4"
+    },
+    {
+      "parameters": {
+        "query": "={{ $json.output[\"The most trending sub-topic\"] }}",
+        "options": {
+          "topic": "finance",
+          "search_depth": "advanced",
+          "max_results": "={{ $('On form submission2').item.json['Number of top websites you want to parse'] }}"
+        }
+      },
+      "type": "@tavily/n8n-nodes-tavily.tavily",
+      "typeVersion": 1,
+      "position": [
+        528,
+        -224
+      ],
+      "id": "18fec0af-dc3c-44b0-b105-a7f87927adbc",
+      "name": "Tavily",
+      "credentials": {
+        "tavilyApi": {
+          "id": "EXXbU6uA9NS9Z5cn",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Code Node 4",
+        "height": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4512,
+        -288
+      ],
+      "id": "fce1505b-3cb1-41cb-b823-dee552f8b9a1",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "## Get the top N website \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Limit: 100 request/minue\n",
+        "height": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        448,
+        -304
+      ],
+      "id": "52dbb46b-82cd-4eb9-bfbd-cdfa1c39aac3",
+      "name": "Sticky Note22"
+    },
+    {
+      "parameters": {
+        "jsCode": "const htmlFragment = $json.output;\n\nif (!htmlFragment) {\n  throw new Error(\"No HTML content found in 'output'.\");\n}\n\n// Extract the first <h1> content using RegExp\nconst match = htmlFragment.match(/<h1>(.*?)<\\/h1>/i);\nlet title = match ? match[1] : 'Untitled';\n\n// Clean the title for use as a filename\ntitle = title.replace(/[^a-z0-9_\\- ]/gi, '').trim();\nconst fileName = `${title || 'Untitled'}.html`;\n\n// Wrap HTML content in full page template\nconst fullHTML = `\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>${title}</title>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <style>\n    body {\n      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n      line-height: 1.6;\n      margin: 40px;\n      background-color: #fdfdfd;\n      color: #333;\n    }\n    h1, h2, h3 {\n      color: #1a237e;\n    }\n    hr {\n      margin: 40px 0;\n      border: none;\n      border-top: 2px solid #ccc;\n    }\n    ul {\n      margin-left: 20px;\n    }\n    strong {\n      color: #d32f2f;\n    }\n    em {\n      color: #1976d2;\n    }\n  </style>\n</head>\n<body>\n${htmlFragment}\n</body>\n</html>\n`;\n\n// Convert to binary\nconst data = await this.helpers.prepareBinaryData(\n  Buffer.from(fullHTML, 'utf-8'),\n  fileName,\n  'text/html'\n);\n\nreturn [\n  {\n    binary: {\n      data\n    },\n    json: {\n      filename: fileName\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4560,
+        -176
+      ],
+      "id": "0f5e3fb3-e7b6-44cb-8047-5aa2311b3210",
+      "name": "CodeNode4"
+    },
+    {
+      "parameters": {
+        "content": "## Working of code node 2\n\nInput: just a chunk of HTML content that's sitting there in $json.output – that's our starting point.\n\nSafety first: It quickly checks if that HTML chunk actually exists. If it's empty, it'll just throw an error because, well, there's nothing to work with!\n\nFinds and cleans text: It then goes through your HTML, specifically looking inside <p> (paragraph) and <span> tags.\n\nStrips out extra bits: Anything that looks like another HTML tag inside those paragraphs or spans gets completely removed, leaving just the plain text.\n\nFinally, it hands you back all that clean, plain text it found, organized as a list.\n\n\n",
+        "height": 400,
+        "width": 520,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1792,
+        -800
+      ],
+      "id": "4434ae5f-bf4d-40a5-9b5b-0f68acb38116",
+      "name": "Sticky Note33"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Ensure we process multiple items from the input\nconst results = items.map(item => item.json.output); \n\n// Define a separator to distinguish pages\nconst separator = \"\\n\\n--- Page Break ---\\n\\n\";\n\n// Combine all body text into a single string\nconst combinedBodyText = results.join(separator);\n\n// Return the concatenated result\nreturn {\n  combinedBodyText\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3152,
+        -176
+      ],
+      "id": "462f35a1-5edb-44e2-b2c0-bb0abc3a8d14",
+      "name": "concatenate Body Text Code Node 3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the input HTML from json.data\nconst html = $json.data || \"\";\n\nif (!html) {\n  throw new Error(\"No HTML content provided in json.data. Ensure the input contains valid HTML.\");\n}\n\n// Function to extract and clean content from specified tags\nfunction extractAndCleanContent(html, tag) {\n  const regex = new RegExp(`<${tag}[^>]*>(.*?)</${tag}>`, \"gis\");\n  const matches = [...html.matchAll(regex)];\n\n  // Remove nested HTML tags and return plain text\n  return matches.map(match => match[1].replace(/<[^>]*>/g, \"\").trim());\n}\n\n// Extract and clean body text (from <p> and <span> tags)\nconst bodyText = [\n  ...extractAndCleanContent(html, \"p\"),\n  ...extractAndCleanContent(html, \"span\")\n];\n\n// Return the clean text as an array\nreturn {\n  bodyText\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2064,
+        -128
+      ],
+      "id": "11a68310-d48d-4d1c-9b1c-a78ddc285fac",
+      "name": "Code node 2",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## Working of code node 3\n\n\nGathers all your text chunks: It looks at each item you give it and pulls out the main text content from each.\n\nAdds a \"page break\" : It puts a special marker in between each text chunk, like a clear divider.\n\nStitches it all together: All those separate text chunks are then combined into one long, continuous piece of text.\n\nHands you the combined text:  Finally, it gives you that single, long string of text with all the original pieces merged.\n\n",
+        "height": 400,
+        "width": 520,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2992,
+        -800
+      ],
+      "id": "0bb1d2f5-5bbe-4a8c-8bda-b47cc0424063",
+      "name": "Sticky Note40"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the 'results' array from the HTTP Request Node output\nconst results = $json.results;\n\n// Extract the URLs from each result\nconst extractedUrls = results.map(result => ({\n  url: result.url,\n  title: result.title,\n  // Optional: Include title if needed for context\n  description: result.description,\n  // Optional: Include description if needed\n}));\n\n// Return structured output\nreturn extractedUrls;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        848,
+        -224
+      ],
+      "id": "78729e88-f4a6-467e-a799-6d88c944acba",
+      "name": "Code Node 1"
+    },
+    {
+      "parameters": {
+        "content": "## Working of code node 1\n\nGrabs search results: It takes a bunch of \"results\" that likely came from an earlier web search or API call.\n\nPulls out key info: For each result, it quickly extracts the important bits: the website's main address (URL), its title, and sometimes a short description.\n\nOrganizes it neatly: It then puts all this extracted information into a clean, easy-to-read list, ready for you to use.\n\n\n\n\n",
+        "height": 420,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        768,
+        -816
+      ],
+      "id": "476ae8c1-bec0-4940-980b-b58aebc567c8",
+      "name": "Sticky Note41"
+    },
+    {
+      "parameters": {
+        "formTitle": "test",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Trending Subtopic",
+              "placeholder": "deep learning for stock market trends"
+            },
+            {
+              "fieldLabel": "Number of Website you want to parse",
+              "fieldType": "number",
+              "placeholder": "1-10"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -624,
+        1520
+      ],
+      "id": "a1e57c5a-0098-49fd-8fb1-e655f51e0a35",
+      "name": "On form submission",
+      "webhookId": "d720546a-d300-40b5-9c5e-e1101b6ee878"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the 'results' array from the HTTP Request Node output\nconst results = $json.results;\n\n// Extract the URLs from each result\nconst extractedUrls = results.map(result => ({\n  url: result.url,\n  title: result.title,\n  // Optional: Include title if needed for context\n  description: result.description,\n  // Optional: Include description if needed\n}));\n\n// Return structured output\nreturn extractedUrls;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        32,
+        1520
+      ],
+      "id": "d8e7ad4d-208e-4053-9907-eeae73c95681",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        384,
+        1520
+      ],
+      "id": "c304d644-89a3-4b2a-8628-c7f0ece75d3e",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1088,
+        1504
+      ],
+      "id": "1d0fc29a-124d-4938-bb20-85c869aa9db3",
+      "name": "Loop Over Items3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the input HTML from json.data\nconst html = $json.data || \"\";\n\nif (!html) {\n  throw new Error(\"No HTML content provided in json.data. Ensure the input contains valid HTML.\");\n}\n\n// Function to extract and clean content from specified tags\nfunction extractAndCleanContent(html, tag) {\n  const regex = new RegExp(`<${tag}[^>]*>(.*?)</${tag}>`, \"gis\");\n  const matches = [...html.matchAll(regex)];\n\n  // Remove nested HTML tags and return plain text\n  return matches.map(match => match[1].replace(/<[^>]*>/g, \"\").trim());\n}\n\n// Extract and clean body text (from <p> and <span> tags)\nconst bodyText = [\n  ...extractAndCleanContent(html, \"p\"),\n  ...extractAndCleanContent(html, \"span\")\n];\n\n// Return the clean text as an array\nreturn {\n  bodyText\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        1648
+      ],
+      "id": "5bc54f0a-8a80-49d0-879d-66619bd4906e",
+      "name": "Code3",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "=http://api.scraperapi.com/?api_key=54f15cfa8980125693757814e5d7ece4&url={{ $json.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        640,
+        1568
+      ],
+      "id": "f3613ad4-3a3d-417f-a838-b732d17a43ee",
+      "name": "Fetch content from the URL1",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Ensure we process multiple items from the input\nconst results = items.map(item => item.json.output); // Collect `bodyText` from each iteration\n\n// Define a separator to distinguish pages\nconst separator = \"\\n\\n--- Page Break ---\\n\\n\";\n\n// Combine all body text into a single string\nconst combinedBodyText = results.join(separator);\n\n// Return the concatenated result\nreturn {\n  combinedBodyText\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2352,
+        1504
+      ],
+      "id": "eba699fb-62b2-4979-953a-f089270d3bf0",
+      "name": "concatenate Body Text Code1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\n**Role**: A precise data extractor and summarizer.\n\n**Instruction**: Analyze the body text provided from three scraped web pages and produce a structured, detailed summary of key information contained within. Focus on identifying unique, relevant, and actionable insights that align with the goal of informing a high-quality blog post.\n\n**Steps**:\n\n1. **Input Analysis**: Examine the combined body text input from the three web pages provided: `{{ $json.combinedBodyText }}`.\n2. **Topic Identification**: Determine the overarching themes or topics discussed in the combined text.\n3. **Content Extraction**: Extract key details such as:\n    - Major points or arguments.\n    - Supporting facts, statistics, or evidence.\n    - Unique insights or perspectives.\n4. **Organized Summary**: Structure the information in a format that is eary to use for a blog writer. Use sections like:\n    - Introduction/Overview.\n    - Key Insights/Findings (list format).\n    - Supporting Evidence/Examples.\n    - Implications or Potential Applications.\n5. **Clarity and Relevance**: Ensure the summary is concise, devoid of unnecessary repetition, and directly relevant to producing a blog post.\n\n**End Goal**: To generate a coherent and detailed summary that contains all the critical information from the input text. This summary will serve as the foundational content for the subsequent blog-writing step.\n\n**Narrowing**: Emphasize extracting content that provides depth and value for readers, such as unique data points, expert opinions, or practical applications. Avoid duplicating generic information and instead highlight specifics unique to the combined web pages.\n\nExample Output Structure:\n\n```\n**Overview**\n[Brief description of the overall topic(s) covered in the three web pages.]\n\n**Key Insights/Findings**\n- [Insight 1]\n- [Insight 2]\n- [Insight 3]\n\n**Supporting Evidence/Examples**\n1. [Fact or example from Page 1]\n2. [Fact or example from Page 2]\n3. [Fact or example from Page 3]\n\n**Implications or Applications**\n[Analysis of how the information could be applied or its broader implications.]\n```",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        2672,
+        1504
+      ],
+      "id": "893930fc-5530-404d-a178-b424fcc9774d",
+      "name": "Data Extractor and Summarizer Agent1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Role:\n\"You are an experienced SEO Content Writer with expertise in crafting high-quality, search engine-optimized articles. You are skilled at analyzing competitive content and creating superior versions that outshine the existing top results.\"\n\nInstructions:\n\"You'll receive a summary:{{ $json.output }} that contains the key content extracted from the top-ranking SERP results for the given topic. This factual information represents what is already performing well in search engine results. Your task is to take this content, analyze it, and craft a blog article that is not only engaging and informative but also outperforms these competitors in terms of value, depth, and user experience.\"\n\nSteps:\n\nContent Analysis:\nReview the summary thoroughly, which contains the best information from top-ranking pages. Identify areas where the existing content can be improved in terms of depth, clarity, and value.\nTake note of any gaps or overlooked points in the competitor content that you can address.\n\nStructuring the Article:\nOrganize the content into a well-structured format, with a clear introduction, engaging body, and strong conclusion.\nEnsure each section is optimized for readability, with logical flow and appropriate use of headers (H1, H2, H3) for easy navigation.\nBreak down complex information into digestible chunks, using short paragraphs, bullet points, and numbered lists where appropriate.\n\nEnhancing Readability:\nWrite in a conversational, easy-to-understand tone while maintaining professionalism and authority.\nUse transition words and varied sentence lengths to keep the reader engaged.\navoid jargon or overly complex terms and unless they add value, and provide definations or explanations for technical terms. \n\nSEO Optimization:\nintegrate relevant primary and secondary keywords naturally throughout the article to improve rankings.\nEnsure keyword usage is contextually relevant and does not disrupt the natural flow of the content.\nOptimize for on-page SEO by incorporating internal links, external authoritative references, and a compelling meta description.\n\nAdding Unique Value:\nProvide actionable insights, real-world examples, or tips that add unique value to the reader, going beyond what is offered in the current top-ranking content.\nInclude data, case studies, or expert quotes to support your points and further differentiate your article from competitors.\nWhere applicable, add multimedia (images, graphs, charts) to enhance comprehension and engagement.\n\nFinal Review:\nDouble-check the article for grammar, spelling, and consistency.\nMake sure all content is fact-checked and up-to-date with the most relevant, accurate information.\nReview the tone and readability to ensure it appeals to the target audience, balancing SEO needs with user engagement.\n\nEnd Goal:\n\"Your ultimate goal is to create a superior, SEO-optimized blog article that not only outranks the current top competitors but also provides more value, engages the reader, and is easily digestible. The content should be authoritative, well-researched, and designed to convert visitors into loyal readers or customers.\"\n\nNarrowing:\n\"Focus strictly on factual information from the top-ranking pages, improving and expanding upon it. Avoid including off-topic or unrelated content. Stay aligned with the search intent of the target audience, which is to find actionable, in-depth, and reliable information on the topic. Do not overstuff keywords; ensure the writing flows naturally and is reader-focused.\"\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        3120,
+        1504
+      ],
+      "id": "87bfcf43-3258-46dd-9221-cb2daa3aaac1",
+      "name": "SEO Content Writer Agent1"
+    },
+    {
+      "parameters": {
+        "model": "SEO Content Writer Agent",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        3120,
+        1664
+      ],
+      "id": "d621feda-d150-45fd-9c0e-c288b0ebad48",
+      "name": "Azure OpenAI Chat Model6",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "xCNBHSpql1TSfuDB",
+          "name": "Azure Open AI account - GPT4o"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Role:\n\"You are a skilled human-like writing assistant, tasked with transforming blog content into highly engaging, empathetic, and conversational writing without altering its factual or structural integrity.\"\n\nInstructions:\n\"You'll receive content from the Blog Writer agent node: {{ $json.output }}. Your goal is to refine the tone, style, and flow of this content to make it feel more human, approachable, and relatable while adhering to these guidelines:\n\nCore Guidelines\n\nPreserve Factual Accuracy and Structure:\nMaintain the original facts, structure, and organization of the content. Focus solely on tone and language adjustments.\n\nHumanized Word Choice:\nAvoid predictable or robotic phrases and rewrite any overly formal or repetitive sentences.\nReplace corporate language with natural, engaging prose. Use conversational transitions, opting for smoother, more natural connecting phrases (e.g., \"Think about it,\" \"Here's the thing\") instead of stiff, formal ones (e.g., \"Furthermore,\" \"Moreover,\" \"In addition\").\nSpeak directly to the reader using \"you\" and \"we.\"\nAcknowledge reader feelings, challenges, and aspirations.\nUse plain language; explain technical terms clearly if necessary.\nVary paragraph lengths.\nVary sentence length and structure: Mix short, punchy sentences with longer, more descriptive ones to keep the rhythm engaging and prevent monotony.\nIncorporate rhetorical questions: Pose questions that encourage the reader to think or reflect, fostering a conversational feel rather than simply presenting information.\nShow, don't just tell: Instead of stating a fact, describe it in a way that allows the reader to visualize or feel it, adding vividness to the writing and creating a more immersive experience.\nMaintain a consistent, approachable tone throughout the article, avoiding sudden shifts that could disorient the reader.\n\nValue-Driven Content:\nEliminate fluff. Every sentence should contribute meaningful information, insight, or emotional connection.\n\nStylistic Improvements:\nUse active voice wherever possible. Avoid clichés, repetitive phrases, and awkward transitions.\nAdd relatable examples or brief anecdotes where appropriate, enhancing the reader's emotional connection to the content.\nWhere suitable, use simple analogies or metaphors to clarify complex ideas, making them more approachable and memorable.\n\nProhibited Language:\nLimit Words: Avoid using the words \"unique,\" \"ensure,\" and \"utmost\" more than three times.\nForbidden Words: Avoid these entirely:\n\"meticulous,\" \"complexities,\" \"bespoke,\" \"tailored,\" \"underpins,\" \"amongst,\" \"unlock the secrets,\" \"unveil the secrets,\" \"robust,\" and similar overused or corporate terms.\nAvoid passive voice constructions. Always aim for clarity and engagement.\nSteer clear of redundancies (e.g., 'past history,' 'free gift') and unnecessary wordiness that can dilute clarity and engagement.\n\nExamples of Transformation\n\nBefore: \"This tool can improve your workflow.\"\nAfter: \"Picture yourself gliding through your tasks with ease, thanks to a tool that takes the heavy lifting off your plate.\"\nBefore: \"It is advisable to review all options before making a decision.\"\nAfter: \"Take a moment to consider your choices—what works best for you?\"\n\nEnd Goal:\n\"Produce content that feels natural, engaging, and human while staying aligned with the original structure and facts. Aim to captivate readers, keep their attention, and foster a genuine connection. Always prioritize readability, relatability, and emotional resonance. The content should not just inform, but also resonate emotionally, guiding the reader through a satisfying and insightful journey from introduction to conclusion.\"",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        3520,
+        1504
+      ],
+      "id": "9c936aa5-7f83-4cb6-8533-8a67afbf86b9",
+      "name": "Humanize Text1"
+    },
+    {
+      "parameters": {
+        "model": "Humanize Text",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        3568,
+        1664
+      ],
+      "id": "cb4afe0c-c76a-457a-a030-455214d4192c",
+      "name": "Azure OpenAI Chat Model7",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "xCNBHSpql1TSfuDB",
+          "name": "Azure Open AI account - GPT4o"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "Data Extraction",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2672,
+        1664
+      ],
+      "id": "e3b215c4-7f35-47b0-87a3-1da9b0f330ff",
+      "name": "Azure OpenAI Chat Model8",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "xCNBHSpql1TSfuDB",
+          "name": "Azure Open AI account - GPT4o"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Get the top N website ",
+        "height": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        1440
+      ],
+      "id": "ec2dacb3-41bf-4598-b494-43b3e9c7a686",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "## extracting links from json",
+        "height": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        1440
+      ],
+      "id": "e9089541-c2e8-4afe-a0ac-6ebfd98adc57",
+      "name": "Sticky Note19"
+    },
+    {
+      "parameters": {
+        "content": "## loop the code node to clean the data  ",
+        "height": 420,
+        "width": 460
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        960,
+        1440
+      ],
+      "id": "f6f89a5c-09f6-493b-8907-509beac8ae1f",
+      "name": "Sticky Note20"
+    },
+    {
+      "parameters": {
+        "content": "## To concatenate the content \n",
+        "height": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2288,
+        1408
+      ],
+      "id": "be148c93-5fd1-42c6-b0a1-747afbe5ea65",
+      "name": "Sticky Note21"
+    },
+    {
+      "parameters": {
+        "content": "## Humenzing the output",
+        "height": 420,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3504,
+        1408
+      ],
+      "id": "9b17fdcd-88db-4019-b08e-0afe8792abe7",
+      "name": "Sticky Note23"
+    },
+    {
+      "parameters": {
+        "content": "## summerizing data",
+        "height": 420,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3088,
+        1408
+      ],
+      "id": "eb4f32f1-f5a7-4264-9cf6-782a6f3a1a02",
+      "name": "Sticky Note24"
+    },
+    {
+      "parameters": {
+        "content": "## summerizing each link",
+        "height": 420,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2624,
+        1408
+      ],
+      "id": "f68cd520-5ed8-491e-b505-3a31c9740178",
+      "name": "Sticky Note25"
+    },
+    {
+      "parameters": {
+        "content": "## To extract the content of the website\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n54f15cfa8980125693757814e5d7ece4\n\nuser vikaspathak0911@gmail.com",
+        "height": 420,
+        "width": 520
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        304,
+        1440
+      ],
+      "id": "477cacc1-1510-4846-be2b-dd49871c131d",
+      "name": "Sticky Note26"
+    },
+    {
+      "parameters": {
+        "model": "Humanize Text",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        3888,
+        1664
+      ],
+      "id": "776b51b5-0988-4c79-880a-babaa26a36fd",
+      "name": "Azure OpenAI Chat Model9",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "l5ghjyyqVOS2c7hp",
+          "name": "Azure Open AI account - GPT4o-mini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## HTML format output for website ",
+        "height": 420,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3872,
+        1408
+      ],
+      "id": "5347a3bd-7d68-4908-900c-d7ca021cbc22",
+      "name": "Sticky Note27"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Use the {{ $json.output }} as the input of blog. convert it HTML format. ensure the format defined below\n\nFormat the content using clean, semantic HTML:\n\n- Do not include \"\"```html\" and \"```\" in the begining.\n- The main title should be an `<h1>`.\n- Section titles (e.g., 'What is Mindful Meditation?') should be `<h2>`.\n- Sub-section titles (e.g., 'Getting Started') should be `<h3>`.\n- All paragraphs should be enclosed in `<p>` tags.\n- Lists of items should use `<ul>` and `<li>` tags.\n- Important terms or phrases that need emphasis should use `<strong>` tags for bolding.\n- Visually separate major sections with `<hr>` tags.\n- Do not include `<html>`, `<head>`, `<body>`, `<style>`, or `<script>` tags. Only output the content that would go inside the `<body>` element.\n- Ensure all HTML tags are correctly opened and closed.\"",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        3888,
+        1504
+      ],
+      "id": "45ba59ef-604e-4f6c-9ab1-dd452464e421",
+      "name": "HTML format1"
+    },
+    {
+      "parameters": {
+        "content": "## what to search in a form submission",
+        "height": 420,
+        "width": 260
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        1440
+      ],
+      "id": "e26ed647-b505-49d5-aa03-01732b9249d6",
+      "name": "Sticky Note28"
+    },
+    {
+      "parameters": {
+        "content": "## Pass the Trending Sub topic from Sheet on which you want to write blog ",
+        "height": 760,
+        "width": 5620,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -784,
+        1264
+      ],
+      "id": "ee72a108-3880-450f-9402-4d97094390b5",
+      "name": "Sticky Note29"
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.filename }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1R3TZq654HaZw_HTYsZtkfJa35NmGBk77",
+          "mode": "list",
+          "cachedResultName": "website SEO",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1R3TZq654HaZw_HTYsZtkfJa35NmGBk77"
+        },
+        "options": {
+          "propertiesUi": {
+            "propertyValues": [
+              {
+                "key": "mimeType",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4608,
+        1504
+      ],
+      "id": "55d5c218-de28-4daf-82fc-fb140fd20583",
+      "name": "Google Drive2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Ie4B7rdKufE5pkR5",
+          "name": "Google Drive account - vikaspathak0911@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## save output to gdrive\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nhttps://drive.google.com/drive/u/0/folders/1R3TZq654HaZw_HTYsZtkfJa35NmGBk77",
+        "height": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4544,
+        1408
+      ],
+      "id": "a9e94a8d-9d39-45dd-a92d-d361adaf6f9e",
+      "name": "Sticky Note36"
+    },
+    {
+      "parameters": {
+        "jsCode": "const htmlFragment = $json.output;\n\nif (!htmlFragment) {\n  throw new Error(\"No HTML content found in 'output'.\");\n}\n\n// Extract the first <h1> content using RegExp\nconst match = htmlFragment.match(/<h1>(.*?)<\\/h1>/i);\nlet title = match ? match[1] : 'Untitled';\n\n// Clean the title for use as a filename\ntitle = title.replace(/[^a-z0-9_\\- ]/gi, '').trim();\nconst fileName = `${title || 'Untitled'}.html`;\n\n// Wrap HTML content in full page template\nconst fullHTML = `\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>${title}</title>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <style>\n    body {\n      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n      line-height: 1.6;\n      margin: 40px;\n      background-color: #fdfdfd;\n      color: #333;\n    }\n    h1, h2, h3 {\n      color: #1a237e;\n    }\n    hr {\n      margin: 40px 0;\n      border: none;\n      border-top: 2px solid #ccc;\n    }\n    ul {\n      margin-left: 20px;\n    }\n    strong {\n      color: #d32f2f;\n    }\n    em {\n      color: #1976d2;\n    }\n  </style>\n</head>\n<body>\n${htmlFragment}\n</body>\n</html>\n`;\n\n// Convert to binary\nconst data = await this.helpers.prepareBinaryData(\n  Buffer.from(fullHTML, 'utf-8'),\n  fileName,\n  'text/html'\n);\n\nreturn [\n  {\n    binary: {\n      data\n    },\n    json: {\n      filename: fileName\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4288,
+        1504
+      ],
+      "id": "e12e9446-434a-4be0-b108-0ba3179453e9",
+      "name": "Code5"
+    },
+    {
+      "parameters": {
+        "content": "## Code Nod to convert int .hmtl binary file ",
+        "height": 420,
+        "width": 280
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4224,
+        1408
+      ],
+      "id": "75468b7b-9c25-4e45-8188-5173bea4b5cd",
+      "name": "Sticky Note37"
+    },
+    {
+      "parameters": {
+        "query": "={{ $json['Trending Subtopic'] }}",
+        "options": {
+          "topic": "finance",
+          "search_depth": "advanced",
+          "max_results": "={{ $json['Number of Website you want to parse'] }}"
+        }
+      },
+      "type": "@tavily/n8n-nodes-tavily.tavily",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        1520
+      ],
+      "id": "7f1b8ce8-15a5-4d5a-bfce-8862338d5f03",
+      "name": "Tavily1",
+      "credentials": {
+        "tavilyApi": {
+          "id": "EXXbU6uA9NS9Z5cn",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## summarizing content of all website using loop and AI agent",
+        "height": 500,
+        "width": 720,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        1392
+      ],
+      "id": "6d291e9d-0bb9-4042-b0c0-c2282d1330d0",
+      "name": "Sticky Note38"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\n**Role**: A precise data extractor and summarizer.\n\n**Instruction**: Analyze the body text provided from three scraped web pages and produce a structured, detailed summary of key information contained within. Focus on identifying unique, relevant, and actionable insights that align with the goal of informing a high-quality blog post.\n\n**Steps**:\n\n1. **Input Analysis**: Examine the combined body text input from the three web pages provided: `{{ $json.bodyText }}`.\n2. **Topic Identification**: Determine the overarching themes or topics discussed in the combined text.\n3. **Content Extraction**: Extract key details such as:\n    - Major points or arguments.\n    - Supporting facts, statistics, or evidence.\n    - Unique insights or perspectives.\n4. **Organized Summary**: Structure the information in a format that is eary to use for a blog writer. Use sections like:\n    - Introduction/Overview.\n    - Key Insights/Findings (list format).\n    - Supporting Evidence/Examples.\n    - Implications or Potential Applications.\n5. **Clarity and Relevance**: Ensure the summary is concise, devoid of unnecessary repetition, and directly relevant to producing a blog post.\n\n**End Goal**: To generate a coherent and detailed summary that contains all the critical information from the input text. This summary will serve as the foundational content for the subsequent blog-writing step.\n\n**Narrowing**: Emphasize extracting content that provides depth and value for readers, such as unique data points, expert opinions, or practical applications. Avoid duplicating generic information and instead highlight specifics unique to the combined web pages.\n\nExample Output Structure:\n\n```\n**Overview**\n[Summerize the text extracted from the website.]\n\n**Key Insights/Findings**\n- [Insight 1]\n- [Insight 2]\n- [Insight 3]\n\n**Supporting Evidence/Examples**\n1. [Fact or example from Page 1]\n2. [Fact or example from Page 2]\n3. [Fact or example from Page 3]\n\n**Implications or Applications**\n[Analysis of how the information could be applied or its broader implications.]\n```",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1840,
+        1600
+      ],
+      "id": "014bdb0b-f129-4576-82cb-7b39f8ac9090",
+      "name": "Data Extractor and Summarizer Agent"
+    },
+    {
+      "parameters": {
+        "model": "Data Extraction",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1872,
+        1728
+      ],
+      "id": "fb1b9313-573d-4c63-ad9b-4c15422da733",
+      "name": "Azure OpenAI Chat Model",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "xCNBHSpql1TSfuDB",
+          "name": "Azure Open AI account - GPT4o"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## summarizing content of website ",
+        "height": 420,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1792,
+        1440
+      ],
+      "id": "6950a66f-53e4-4343-af1c-b29ee1e5c960",
+      "name": "Sticky Note39"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1600,
+        1504
+      ],
+      "id": "4a5a4b9f-d34b-4818-82a4-aeceb428505d",
+      "name": "Loop Over Items5"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fetch content from the URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code node 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch content from the URL": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SEO Content Writer Agent": {
+      "main": [
+        [
+          {
+            "node": "Humanize Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "SEO Content Writer Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Humanize Text": {
+      "main": [
+        [
+          {
+            "node": "HTML format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Humanize Text",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "HTML format",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Tavily",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML format": {
+      "main": [
+        [
+          {
+            "node": "CodeNode4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model10": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Data Extractor and Summarizer Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Extractor and Summarizer Agent2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items4": {
+      "main": [
+        [
+          {
+            "node": "concatenate Body Text Code Node 3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Data Extractor and Summarizer Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily": {
+      "main": [
+        [
+          {
+            "node": "Code Node 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CodeNode4": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "concatenate Body Text Code Node 3": {
+      "main": [
+        [
+          {
+            "node": "SEO Content Writer Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code node 2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Node 1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Tavily1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fetch content from the URL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch content from the URL1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "concatenate Body Text Code1": {
+      "main": [
+        [
+          {
+            "node": "Data Extractor and Summarizer Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Extractor and Summarizer Agent1": {
+      "main": [
+        [
+          {
+            "node": "SEO Content Writer Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SEO Content Writer Agent1": {
+      "main": [
+        [
+          {
+            "node": "Humanize Text1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "SEO Content Writer Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Humanize Text1": {
+      "main": [
+        [
+          {
+            "node": "HTML format1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Humanize Text1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Data Extractor and Summarizer Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model9": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "HTML format1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML format1": {
+      "main": [
+        [
+          {
+            "node": "Code5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code5": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily1": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Extractor and Summarizer Agent": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Data Extractor and Summarizer Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items5": {
+      "main": [
+        [
+          {
+            "node": "concatenate Body Text Code1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Data Extractor and Summarizer Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "60306a41-130f-41d7-9db1-1c1e4bd8461d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0700e48b03a0654cffdc33e40c6a58faaf369b7e0a2d9e7ab4fed1f410bed752"
+  },
+  "id": "0yOzJsuGAiBKyA21",
+  "tags": [
+    {
+      "createdAt": "2025-03-20T16:37:10.839Z",
+      "updatedAt": "2025-03-20T16:37:10.839Z",
+      "id": "SYmbyQ6lAiJflaT4",
+      "name": "seo"
+    },
+    {
+      "createdAt": "2025-03-22T18:32:27.321Z",
+      "updatedAt": "2025-03-22T18:32:27.321Z",
+      "id": "Tqq3I6Ik9nUDoJVX",
+      "name": "WIP"
+    },
+    {
+      "createdAt": "2025-03-29T19:09:40.026Z",
+      "updatedAt": "2025-03-29T19:09:40.026Z",
+      "id": "elzvFyxYrwT7nOjP",
+      "name": "Vikas"
+    },
+    {
+      "createdAt": "2025-03-29T19:18:58.692Z",
+      "updatedAt": "2025-03-29T19:18:58.692Z",
+      "id": "LYNjA4bNzs1m1Ju0",
+      "name": "CWT-website"
+    }
+  ]
+}
