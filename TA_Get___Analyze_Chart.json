@@ -269,7 +269,7 @@
           "parameters": [
             {
               "name": "x-api-key",
-              "value": "zR7bqpSgkK9G4K2WSoA5raBYFEWQOF6Y3fzeQ7oD"
+              "value": "you-api-key"
             },
             {
               "name": "Content-Type",
