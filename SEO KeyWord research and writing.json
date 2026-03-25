@@ -1443,7 +1443,7 @@
     },
     {
       "parameters": {
-        "url": "=http://api.scraperapi.com/?api_key=54f15cfa8980125693757814e5d7ece4&url={{ $json.url }}",
+        "url": "=http://api.scraperapi.com/?api_key=your-api-key&url={{ $json.url }}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
